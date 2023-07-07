@@ -1,12 +1,14 @@
 #![no_main]
 #![no_std]
-#![feature(default_alloc_error_handler)]
 
 extern crate alloc;
 
 use cortex_m::prelude::_embedded_hal_blocking_delay_DelayMs as DelayMs;
 use defmt::Format;
-use nrf9160_hal::{Delay, pac::{interrupt, CorePeripherals, Interrupt, NVIC}};
+use nrf9160_hal::{
+    pac::{interrupt, CorePeripherals, Interrupt, NVIC},
+    Delay,
+};
 use nrfxlib::modem;
 use serde::{Deserialize, Serialize};
 
@@ -91,7 +93,7 @@ fn run(delay: &mut impl DelayMs<u32>) -> Result<(), golioth::Error> {
         led0: bool,
     }
 
-    let leds: Leds = golioth.lightdb_get("led")?;
+    let leds: u32 = golioth.lightdb_get("test")?;
 
     defmt::info!("leds: {:?}", leds);
 
